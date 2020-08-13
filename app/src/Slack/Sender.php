@@ -4,6 +4,7 @@ namespace App\Slack;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injectable;
 
 class Sender
@@ -11,6 +12,7 @@ class Sender
     use Injectable;
 
     private const BASE_URL = 'https://slack.com/api/';
+    private const SLACK_TOKEN = 'SLACK_TOKEN';
 
     private $client;
 
@@ -29,13 +31,15 @@ class Sender
         ]);
     }
 
-    public function get(string $url)
+    public function get(string $url, ?array $package = null)
     {
         $response = $this->client->get($url, [
             'headers' => $this->getDefaultHeaders(),
+            'query' => $package ?? [],
         ]);
+
         $contents = $response->getBody();
-        $decoded = json_decode($contents);
+        $decoded = json_decode($contents, true);
 
         return $decoded;
     }
@@ -50,6 +54,12 @@ class Sender
 
     private function getToken(): ?string
     {
-        return 'xoxb-1323770295600-1299945084466-DkVmmBRgDagQZXPqe3kQTmnD';
+        $token = Environment::getEnv(self::SLACK_TOKEN);
+
+        if ($token === false || $token === null || strlen($token) === 0) {
+            throw new \Exception('SLACK_TOKEN has not been set');
+        }
+
+        return $token;
     }
 }

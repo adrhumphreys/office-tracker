@@ -2,6 +2,9 @@
 
 namespace App\Slack;
 
+/*
+ * Not used currently, but can be handy when wanting to send a message to a channel rather than a user
+ */
 class Channels
 {
     private const LIST_CHANNELS = 'conversations.list';
@@ -17,6 +20,9 @@ class Channels
         return self::$channelList;
     }
 
+    /*
+     * Get the ID for a channel based on the normalised name
+     */
     public static function getID(string $channelNameNormalised): ?string
     {
         foreach (self::list() as $channel) {

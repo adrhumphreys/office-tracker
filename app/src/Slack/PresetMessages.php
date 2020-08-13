@@ -6,10 +6,8 @@ use App\UserState;
 
 class PresetMessages
 {
-    public static function askIfUserIsWorkingFromHome(): void
+    public static function askIfUserIsWorkingFromHome(string $username): void
     {
-        $channel = Channels::getID('general');
-
         $questionSection = [
             'type' => 'section',
             'text' => [
@@ -43,14 +41,24 @@ class PresetMessages
                     'type' => 'button',
                     'text' => [
                         'type' => 'plain_text',
-                        'text' => 'Neither :awkward-grimace:',
+                        'text' => 'I\'m on leave',
                     ],
-                    'action_id' => UserState::THE_GREAT_UNKNOWN,
+                    'action_id' => UserState::ON_LEAVE,
+                ],
+                [
+                    'type' => 'button',
+                    'text' => [
+                        'type' => 'plain_text',
+                        'text' => 'I\'m sick',
+                    ],
+                    'action_id' => UserState::SICK,
                 ],
             ],
         ];
 
-        Message::sendBlocks($channel, [
+        $username = strpos($username, "@") === 0 ? $username : "@" . $username;
+
+        Message::sendBlocks($username, [
             $questionSection,
             $actions,
         ]);
@@ -58,13 +66,15 @@ class PresetMessages
 
     public static function sayThanks(string $username, string $state): void
     {
+        $username = strpos($username, "@") === 0 ? $username : "@" . $username;
+
         if ($state === UserState::WORK_FROM_OFFICE) {
             $message = <<<TEXT
 Thanks for keeping us up to date, we've set you as *working from the office*.
 _If this is incorrect, or you later work from home, please feel free to click the button again to correct it_
 TEXT;
 
-            Message::sendToUser($username, $message);
+            Message::send($username, $message);
         }
 
         if ($state === UserState::WORK_FROM_HOME) {
@@ -73,15 +83,23 @@ Thanks for keeping us up to date, we've set you as *working from home*.
 _If this is incorrect, or you later come into the office please click the button for in the office_
 TEXT;
 
-            Message::sendToUser($username, $message);
+            Message::send($username, $message);
         }
 
-        if ($state === UserState::THE_GREAT_UNKNOWN) {
+        if ($state === UserState::ON_LEAVE) {
             $message = <<<TEXT
-Please manually update your status, we haven't a clue what you're doing :sad-panda:
+*Have fun*, we look forward to seeing you again :heart:
 TEXT;
 
-            Message::sendToUser($username, $message);
+            Message::send($username, $message);
+        }
+
+        if ($state === UserState::ON_LEAVE) {
+            $message = <<<TEXT
+Take care, hopefully you're feeling better soon
+TEXT;
+
+            Message::send($username, $message);
         }
     }
 }
