@@ -4,7 +4,7 @@ namespace App;
 
 use App\Slack\Channels;
 use App\Slack\Message;
-use App\Slack\Service;
+use App\Slack\PresetMessages;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
 
@@ -18,8 +18,8 @@ class MessageTask extends BuildTask
      */
     public function run($request): void
     {
-//        Service::askIfUserIsWorkingFromHome();
-        Message::send('@adrhumphreys', 'hey');
+        PresetMessages::askIfUserIsWorkingFromHome();
+//        Message::send('@adrian.humphreys', '*hey* buddy');
     }
 
 }

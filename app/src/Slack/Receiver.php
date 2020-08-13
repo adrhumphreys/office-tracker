@@ -37,7 +37,7 @@ class Receiver extends Controller
                 $userState->State = $action['action_id'];
                 $userState->write();
 
-                Service::sayThanks($userState->Username, $action['action_id']);
+                PresetMessages::sayThanks($userState->Username, $action['action_id']);
             }
         }
 

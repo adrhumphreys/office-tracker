@@ -8,19 +8,6 @@ class Message
 {
     private const POST_URL = 'chat.postMessage';
 
-    public static function send(
-        string $channel,
-        string $message
-    ): ResponseInterface
-    {
-        $package = [
-            'channel' => $channel,
-            'text' => $message,
-        ];
-
-        return Sender::singleton()->send(self::POST_URL, $package);
-    }
-
     public static function sendBlocks(
         string $channel,
         array $blocks
@@ -32,6 +19,22 @@ class Message
         ];
 
         return Sender::singleton()->send(self::POST_URL, $package);
+    }
+
+    public static function send(
+        string $channel,
+        string $message
+    ): ResponseInterface
+    {
+        $blocks = [[
+            'type' => 'section',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => $message,
+            ],
+        ]];
+
+        return self::sendBlocks($channel, $blocks);
     }
 
     public static function sendToUser(string $username, string $message)

@@ -18,7 +18,7 @@ class Sender
     {
         $this->client = new Client(['base_uri' => self::BASE_URL]);
     }
-    
+
     public function send(string $url, array $package): ResponseInterface
     {
         $jsonBlob = json_encode($package);
@@ -50,6 +50,6 @@ class Sender
 
     private function getToken(): ?string
     {
-        return 'xoxb-1298275455330-1310903956081-zjOAlLITymNcLW3VGLXuOLkZ';
+        return 'xoxb-1323770295600-1299945084466-DkVmmBRgDagQZXPqe3kQTmnD';
     }
 }

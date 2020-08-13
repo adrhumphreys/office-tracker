@@ -4,11 +4,11 @@ namespace App\Slack;
 
 use App\UserState;
 
-class Service
+class PresetMessages
 {
     public static function askIfUserIsWorkingFromHome(): void
     {
-        $channel = Channels::getID('tracking-whos-in-where-and-what');
+        $channel = Channels::getID('general');
 
         $questionSection = [
             'type' => 'section',
@@ -60,8 +60,8 @@ class Service
     {
         if ($state === UserState::WORK_FROM_OFFICE) {
             $message = <<<TEXT
-Thanks for keeping us up to date, we've set you as working from the office.
-If this is incorrect, or you later work from home, please feel free to click the button again to correct it
+Thanks for keeping us up to date, we've set you as *working from the office*.
+_If this is incorrect, or you later work from home, please feel free to click the button again to correct it_
 TEXT;
 
             Message::sendToUser($username, $message);
@@ -69,8 +69,8 @@ TEXT;
 
         if ($state === UserState::WORK_FROM_HOME) {
             $message = <<<TEXT
-Thanks for keeping us up to date, we've set you as working from home.
-If this is incorrect, or you later come into the office please click the button for in the office
+Thanks for keeping us up to date, we've set you as *working from home*.
+_If this is incorrect, or you later come into the office please click the button for in the office_
 TEXT;
 
             Message::sendToUser($username, $message);
