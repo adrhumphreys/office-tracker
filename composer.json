@@ -20,7 +20,8 @@
         "guzzlehttp/guzzle": "^7.0",
         "ext-json": "*",
         "silverstripe/crontask": "^2.1",
-        "sminnee/stitchdata-php": "^0.1"
+        "sminnee/stitchdata-php": "^0.1",
+        "silverstripe/dynamodb": "^4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
