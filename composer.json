@@ -21,7 +21,8 @@
         "ext-json": "*",
         "silverstripe/crontask": "^2.1",
         "sminnee/stitchdata-php": "^0.1",
-        "silverstripe/dynamodb": "^4.0"
+        "silverstripe/dynamodb": "^4.0",
+        "silverstripe/raygun": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",

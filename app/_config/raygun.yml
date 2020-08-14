@@ -1,0 +1,8 @@
+---
+Name: raygun
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Raygun\RaygunHandler:
+    constructor:
+      client: '%$Raygun4php\RaygunClient'
+      level: 'warning'
