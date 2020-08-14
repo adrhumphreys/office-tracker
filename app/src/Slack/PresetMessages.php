@@ -88,15 +88,15 @@ TEXT;
 
         if ($state === UserState::ON_LEAVE) {
             $message = <<<TEXT
-*Have fun*, we look forward to seeing you again :heart:
+_Have fun, we look forward to seeing you again :full_moon_with_face:_
 TEXT;
 
             Message::send($username, $message);
         }
 
-        if ($state === UserState::ON_LEAVE) {
+        if ($state === UserState::SICK) {
             $message = <<<TEXT
-Take care, hopefully you're feeling better soon
+_Take care, hopefully you're feeling better soon :heart:_
 TEXT;
 
             Message::send($username, $message);

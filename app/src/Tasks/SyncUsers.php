@@ -6,6 +6,7 @@ use App\Slack\Channels;
 use App\Slack\Message;
 use App\Slack\PresetMessages;
 use App\Slack\Users;
+use App\Vapourtape\Vapourtape;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
 
@@ -19,20 +20,14 @@ class SyncUsers extends BuildTask
      */
     public function run($request): void
     {
-        $staffMembers = [
-            [
-                'staff_name' => 'Adrian Humphreys',
-                'email' => 'adrian.humphreys@silverstripe.com',
-                'office' => 'Auckland',
-            ],
-        ];
+        $staffMembers = Vapourtape::getUsers();
 
         foreach ($staffMembers as $staffMember) {
             $slackuser = Users::lookupByEmail($staffMember['email']);
 
             // Check if the staff member doesn't exist etc
             if (isset($slackuser['error'])) {
-                Logger::log('Couldn\'t add ' . $staffMember['staff_name'] . ' - ' . $slackuser['error']);
+                echo '<li> Couldn\'t add ' . $staffMember['staff_name'] . ' - ' . $slackuser['error'] . PHP_EOL;
 
                 continue;
             }
@@ -50,7 +45,7 @@ class SyncUsers extends BuildTask
             $user->Office = $staffMember['office'];
             $user->write();
 
-            Logger::log('Added user: ' . $user->Name);
+            echo '<li> Added user: ' . $user->Name. PHP_EOL;
         }
     }
 }
