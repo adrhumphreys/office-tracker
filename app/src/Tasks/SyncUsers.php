@@ -20,7 +20,15 @@ class SyncUsers extends BuildTask
      */
     public function run($request): void
     {
-        $staffMembers = Vapourtape::getUsers();
+        $staffMembers = [
+            [
+                'staff_name' => 'Adrian Humphreys',
+                'email' => 'adrian.humphreys@silverstripe.com',
+                'office' => 'Auckland',
+            ],
+        ];
+
+//        $staffMembers = Vapourtape::getUsers();
 
         foreach ($staffMembers as $staffMember) {
             $slackuser = Users::lookupByEmail($staffMember['email']);
