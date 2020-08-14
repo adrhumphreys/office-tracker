@@ -33,10 +33,15 @@ class Sender
 
     public function get(string $url, ?array $package = null)
     {
-        $response = $this->client->get($url, [
+        $options = [
             'headers' => $this->getDefaultHeaders(),
-            'query' => $package ?? [],
-        ]);
+        ];
+
+        if ($package !== null) {
+            $options['query'] = $package;
+        }
+
+        $response = $this->client->get($url, $options);
 
         $contents = $response->getBody();
         $decoded = json_decode($contents, true);

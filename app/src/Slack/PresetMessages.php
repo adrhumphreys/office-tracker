@@ -12,7 +12,7 @@ class PresetMessages
             'type' => 'section',
             'text' => [
                 'type' => 'mrkdwn',
-                'text' => 'Howdy 👋, are you working from the office today?',
+                'text' => '👋 Howdy, are you working from the office today?',
             ],
         ];
 
@@ -73,7 +73,6 @@ class PresetMessages
 Thanks for keeping us up to date, we've set you as *working from the office*.
 _If this is incorrect, or you later work from home, please feel free to click the button again to correct it_
 TEXT;
-
             Message::send($username, $message);
         }
 
@@ -82,24 +81,25 @@ TEXT;
 Thanks for keeping us up to date, we've set you as *working from home*.
 _If this is incorrect, or you later come into the office please click the button for in the office_
 TEXT;
-
             Message::send($username, $message);
         }
 
         if ($state === UserState::ON_LEAVE) {
-            $message = <<<TEXT
-_Have fun, we look forward to seeing you again :full_moon_with_face:_
-TEXT;
-
+            $message = "_Have fun, we look forward to seeing you again :full_moon_with_face:_";
             Message::send($username, $message);
         }
 
         if ($state === UserState::SICK) {
-            $message = <<<TEXT
-_Take care, hopefully you're feeling better soon :heart:_
-TEXT;
+            $message = "_Take care, hopefully you're feeling better soon :heart:_";
 
             Message::send($username, $message);
+
+            $channel = Channels::getIDByNormalisedName('office-tracker');
+            if ($channel !== null) {
+                $message = ':wave:' . $username . ' is on sick leave today';
+
+                Message::send($channel, $message);
+            }
         }
     }
 }
